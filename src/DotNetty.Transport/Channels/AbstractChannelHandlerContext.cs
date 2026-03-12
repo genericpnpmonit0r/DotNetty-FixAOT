@@ -69,14 +69,14 @@ namespace DotNetty.Transport.Channels
                 Flush,
         }
 
-        static readonly ConditionalWeakTable<Type, Tuple<SkipFlags>> SkipTable = new ConditionalWeakTable<Type, Tuple<SkipFlags>>();
+        //static readonly ConditionalWeakTable<Type, Tuple<SkipFlags>> SkipTable = new ConditionalWeakTable<Type, Tuple<SkipFlags>>();
 
         protected static SkipFlags GetSkipPropagationFlags(IChannelHandler handler)
         {
-            Tuple<SkipFlags> skipDirection = SkipTable.GetValue(
-                handler.GetType(),
-                handlerType => Tuple.Create(CalculateSkipPropagationFlags(handlerType)));
-
+            //Tuple<SkipFlags> skipDirection = SkipTable.GetValue(
+            //    handler.GetType(),
+            //    handlerType => Tuple.Create(CalculateSkipPropagationFlags(handlerType)));
+            Tuple<SkipFlags> skipDirection = Tuple.Create(CalculateSkipPropagationFlags(handler.GetType()));
             return skipDirection?.Item1 ?? 0;
         }
 
@@ -168,10 +168,13 @@ namespace DotNetty.Transport.Channels
 
         protected static bool IsSkippable([DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods)] Type handlerType, string methodName, params Type[] paramTypes)
         {
+            /*
             var newParamTypes = new Type[paramTypes.Length + 1];
             newParamTypes[0] = typeof(IChannelHandlerContext);
             Array.Copy(paramTypes, 0, newParamTypes, 1, paramTypes.Length);
             return handlerType.GetMethod(methodName, newParamTypes).GetCustomAttribute<SkipAttribute>(false) != null;
+            */
+            return false; //TODO: STINKY HACK
         }
 
         internal volatile AbstractChannelHandlerContext Next;
