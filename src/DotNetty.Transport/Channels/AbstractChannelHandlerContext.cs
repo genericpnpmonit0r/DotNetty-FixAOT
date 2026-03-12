@@ -3,17 +3,18 @@
 
 namespace DotNetty.Transport.Channels
 {
-    using System;
-    using System.Diagnostics.Contracts;
-    using System.Net;
-    using System.Reflection;
-    using System.Runtime.CompilerServices;
-    using System.Threading.Tasks;
     using DotNetty.Buffers;
     using DotNetty.Common;
     using DotNetty.Common.Concurrency;
     using DotNetty.Common.Internal;
     using DotNetty.Common.Utilities;
+    using System;
+    using System.Diagnostics.CodeAnalysis;
+    using System.Diagnostics.Contracts;
+    using System.Net;
+    using System.Reflection;
+    using System.Runtime.CompilerServices;
+    using System.Threading.Tasks;
     using TaskCompletionSource = DotNetty.Common.Concurrency.TaskCompletionSource;
 
     abstract class AbstractChannelHandlerContext : IChannelHandlerContext, IResourceLeakHint
@@ -79,7 +80,7 @@ namespace DotNetty.Transport.Channels
             return skipDirection?.Item1 ?? 0;
         }
 
-        protected static SkipFlags CalculateSkipPropagationFlags(Type handlerType)
+        protected static SkipFlags CalculateSkipPropagationFlags([DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods)] Type handlerType)
         {
             SkipFlags flags = 0;
 
@@ -163,9 +164,9 @@ namespace DotNetty.Transport.Channels
             return flags;
         }
 
-        protected static bool IsSkippable(Type handlerType, string methodName) => IsSkippable(handlerType, methodName, Type.EmptyTypes);
+        protected static bool IsSkippable([DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods)] Type handlerType, string methodName) => IsSkippable(handlerType, methodName, Type.EmptyTypes);
 
-        protected static bool IsSkippable(Type handlerType, string methodName, params Type[] paramTypes)
+        protected static bool IsSkippable([DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicMethods)] Type handlerType, string methodName, params Type[] paramTypes)
         {
             var newParamTypes = new Type[paramTypes.Length + 1];
             newParamTypes[0] = typeof(IChannelHandlerContext);
