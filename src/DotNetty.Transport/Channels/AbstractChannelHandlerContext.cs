@@ -84,7 +84,7 @@ namespace DotNetty.Transport.Channels
         {
             SkipFlags flags = 0;
 
-            // this method should never throw
+            // this method should never throw, but unfortunately it does with native AOT.
             if (IsSkippable(handlerType, nameof(IChannelHandler.HandlerAdded)))
             {
                 flags |= SkipFlags.HandlerAdded;
